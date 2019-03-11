@@ -56,18 +56,21 @@ class App extends Component {
 
   render() {
     return (
-      <main className="content">
+      <main className="joke__search">
         <h1>Random Dad Jokes</h1>
 
         <form onSubmit={this.onSearchSubmit}>
           <input type="text" placeholder="Search jokes" onChange={this.onSearchChange}/>
           <button>Search</button>
-          <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>Tell a joke</button>
+          <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>Tell joke</button>
         </form>
 
         <p>Searching for: {this.state.searchQuery}</p>
 
-        <p className="joke">{this.state.isFetchingJoke ? "Loading..." : this.state.jokes.toString()}</p>
+        <ul className="joke__list">
+          {this.state.jokes.map(item => <li className="joke">{item.joke}</li>)}
+        </ul>
+
       </main>
     );
   }
