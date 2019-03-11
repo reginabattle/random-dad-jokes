@@ -20,14 +20,14 @@ class App extends Component {
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
   }
 
-  // Get joke
+  // Send search query to API to get jokes
   searchJokes() {
     this.setState({ isFetchingJoke: true });
 
     fetch(`https://icanhazdadjoke.com/search?term=${this.state.searchQuery}`, {
       method: "GET",
       headers: {
-        Accept: "application/json" // Get JSON data
+        Accept: "application/json"
       }
     })
     .then(response => response.json())
