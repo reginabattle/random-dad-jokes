@@ -2,7 +2,6 @@
 .content {
   padding: 3em;
   margin: 0 auto;
-  max-width: 32em;
   text-align: center;
 }
 
@@ -27,6 +26,10 @@
   outline: none;
 }
 
-.content p {
-  font-size: 1.125rem;
+@media (min-width: 768px) {
+
+  .content {
+    max-width: 32em;
+  }
+
 }
