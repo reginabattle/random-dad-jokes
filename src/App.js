@@ -18,6 +18,7 @@ class App extends Component {
     this.onTellJoke = this.onTellJoke.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
+    this.showJokes = this.showJokes.bind(this);
   }
 
   // Send search query to API to get jokes
@@ -54,6 +55,14 @@ class App extends Component {
     this.searchJokes();
   }
 
+  showJokes() {
+    return(
+      <ul className="joke__list">
+        {this.state.jokes.map(item => <li className="joke" key={item.id}>{item.joke}</li>)}
+      </ul>
+    )
+  }
+
   render() {
     return (
       <main className="joke__search">
@@ -67,10 +76,7 @@ class App extends Component {
 
         <h2>Searching for: {this.state.searchQuery}</h2>
 
-        <ul className="joke__list">
-          {this.state.jokes.map(item => <li className="joke">{item.joke}</li>)}
-        </ul>
-
+        {this.state.isFetchingJoke ? 'Loading...' : this.showJokes()}
       </main>
     );
   }
