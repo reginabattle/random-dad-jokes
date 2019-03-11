@@ -65,7 +65,7 @@ class App extends Component {
           <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>Tell joke</button>
         </form>
 
-        <p>Searching for: {this.state.searchQuery}</p>
+        <h2>Searching for: {this.state.searchQuery}</h2>
 
         <ul className="joke__list">
           {this.state.jokes.map(item => <li className="joke">{item.joke}</li>)}
