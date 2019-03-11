@@ -1,26 +1,60 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  joke = null;
+
+  // Set inital state
+  constructor() {
+    super();
+
+    this.state = {
+      joke: null,
+      isFetchingJoke: false
+    };
+    
+    this.onTellJoke = this.onTellJoke.bind(this);
+  }
+
+  // Show joke on load
+  componentDidMount() {
+    this.fetchJoke();
+  }
+
+  // Get joke
+  fetchJoke() {
+    this.setState({ isFetchingJoke: true });
+
+    fetch("https://icanhazdadjoke.com/", {
+      method: "GET",
+      headers: {
+        Accept: "application/json" // Get JSON data
+      }
+    })
+    .then(response => response.json())
+    .then(json => {
+      this.setState({
+        joke: json.joke, // Fetch a new joke
+        isFetchingJoke: false // Check if fecthing joke
+      });
+    });
+  }
+
+  onTellJoke() {
+    this.fetchJoke();
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <main className="content">
+        <h1>Random Dad Joke Generator</h1>
+        <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>
+          Tell a joke
+        </button>
+        <p className="joke">
+          {this.state.isFetchingJoke ? "Loading..." : this.state.joke}
+        </p>
+      </main>
     );
   }
 }
