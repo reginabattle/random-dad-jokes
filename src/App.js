@@ -9,7 +9,7 @@ class App extends Component {
     super();
 
     this.state = {
-      joke: null,
+      jokes: [],
       isFetchingJoke: false
     };
     
@@ -18,14 +18,14 @@ class App extends Component {
 
   // Show joke on load
   componentDidMount() {
-    this.fetchJoke();
+    this.searchJokes();
   }
 
   // Get joke
-  fetchJoke() {
+  searchJokes() {
     this.setState({ isFetchingJoke: true });
 
-    fetch("https://icanhazdadjoke.com/", {
+    fetch("https://icanhazdadjoke.com/search", {
       method: "GET",
       headers: {
         Accept: "application/json" // Get JSON data
@@ -33,27 +33,30 @@ class App extends Component {
     })
     .then(response => response.json())
     .then(json => {
+      const jokes = json.results;
       this.setState({
-        joke: json.joke, // Fetch a new joke
-        isFetchingJoke: false // Check if fecthing joke
+        jokes,
+        isFetchingJoke: false
       });
     });
   }
 
   onTellJoke() {
-    this.fetchJoke();
+    this.searchJokes();
   }
 
   render() {
     return (
       <main className="content">
         <h1>Random Dad Jokes</h1>
-        <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>
-          Tell a joke
-        </button>
-        <p className="joke">
-          {this.state.isFetchingJoke ? "Loading..." : this.state.joke}
-        </p>
+
+        <form>
+          <input type="text" placeholder="Search jokes" />
+          <button>Search</button>
+        </form>
+
+        <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>Tell a joke</button>
+        <p className="joke">{this.state.isFetchingJoke ? "Loading..." : this.state.jokes.toString()}</p>
       </main>
     );
   }
