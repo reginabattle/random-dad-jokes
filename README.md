@@ -4,12 +4,12 @@ A React app that generates random dad jokes.
 
 ## Install
 
-Make sure NPM installed:
+After cloning the files, run the following:
 ```sh
 npm install
 ```
 
-Then you can run it by:
+Run the app locally with the following:
 ```sh
 npm start
 ```
