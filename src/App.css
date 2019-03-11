@@ -13,6 +13,7 @@
   font-weight: 600;
   margin: 1.5em 0;
   padding: 0.75em 1.25em;
+  border-radius: 4px;
   border: 3px solid #212121;
   transition: 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
