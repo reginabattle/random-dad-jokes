@@ -14,20 +14,17 @@ class App extends Component {
       isFetchingJoke: false
     };
     
+    // Bind handlers to component
     this.onTellJoke = this.onTellJoke.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
-  }
-
-  // Show joke on load
-  componentDidMount() {
-    this.searchJokes();
+    this.onSearchSubmit = this.onSearchSubmit.bind(this);
   }
 
   // Get joke
   searchJokes() {
     this.setState({ isFetchingJoke: true });
 
-    fetch("https://icanhazdadjoke.com/search", {
+    fetch(`https://icanhazdadjoke.com/search?term=${this.state.searchQuery}`, {
       method: "GET",
       headers: {
         Accept: "application/json" // Get JSON data
@@ -36,6 +33,7 @@ class App extends Component {
     .then(response => response.json())
     .then(json => {
       const jokes = json.results;
+      console.log('jokes', jokes)
       this.setState({
         jokes,
         isFetchingJoke: false
@@ -51,17 +49,21 @@ class App extends Component {
     this.setState({ searchQuery: event.target.value })
   }
 
+  onSearchSubmit(event) {
+    event.preventDefault();
+    this.searchJokes();
+  }
+
   render() {
     return (
       <main className="content">
         <h1>Random Dad Jokes</h1>
 
-        <form>
+        <form onSubmit={this.onSearchSubmit}>
           <input type="text" placeholder="Search jokes" onChange={this.onSearchChange}/>
           <button>Search</button>
+          <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>Tell a joke</button>
         </form>
-
-        <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>Tell a joke</button>
 
         <p>Searching for: {this.state.searchQuery}</p>
 
