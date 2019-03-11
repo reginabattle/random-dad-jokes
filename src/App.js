@@ -47,7 +47,7 @@ class App extends Component {
   render() {
     return (
       <main className="content">
-        <h1>Random Dad Joke Generator</h1>
+        <h1>Random Dad Jokes</h1>
         <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>
           Tell a joke
         </button>
