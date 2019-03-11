@@ -9,11 +9,13 @@ class App extends Component {
     super();
 
     this.state = {
+      searchQuery: '',
       jokes: [],
       isFetchingJoke: false
     };
     
     this.onTellJoke = this.onTellJoke.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
   }
 
   // Show joke on load
@@ -45,17 +47,24 @@ class App extends Component {
     this.searchJokes();
   }
 
+  onSearchChange(event) {
+    this.setState({ searchQuery: event.target.value })
+  }
+
   render() {
     return (
       <main className="content">
         <h1>Random Dad Jokes</h1>
 
         <form>
-          <input type="text" placeholder="Search jokes" />
+          <input type="text" placeholder="Search jokes" onChange={this.onSearchChange}/>
           <button>Search</button>
         </form>
 
         <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>Tell a joke</button>
+
+        <p>Searching for: {this.state.searchQuery}</p>
+
         <p className="joke">{this.state.isFetchingJoke ? "Loading..." : this.state.jokes.toString()}</p>
       </main>
     );
