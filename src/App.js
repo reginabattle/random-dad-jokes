@@ -59,7 +59,7 @@ class App extends Component {
         <h1>Random Dad Jokes</h1>
 
         <Search 
-          onFormSubmit={this.onSearchJokes} 
+          onFormSubmit={this.searchJokes} 
           onSearchValueChange={this.onSearchChange}
           isSearching={this.state.isLoading} 
           onSingleSearch={() => this.searchJokes(1)} />

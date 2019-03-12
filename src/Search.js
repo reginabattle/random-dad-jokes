@@ -14,6 +14,7 @@ const Search = props => {
 	    <button onClick={props.onSingleSearch} disabled={props.isSearching}>Feelin&rsquo; lucky</button>
 	  </form>
 	);
+	
 };
 
 export default Search;
