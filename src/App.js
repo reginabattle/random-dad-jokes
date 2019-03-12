@@ -9,51 +9,69 @@ class App extends Component {
     super();
 
     this.state = {
-      joke: null,
-      isFetchingJoke: false
+      searchQuery: '',
+      jokes: [],
+      isLoading: false
     };
     
-    this.onTellJoke = this.onTellJoke.bind(this);
+    // Bind handlers to component
+    this.onSearchChange = this.onSearchChange.bind(this);
+    this.onSearchSubmit = this.onSearchSubmit.bind(this);
+    this.showJokes = this.showJokes.bind(this);
   }
 
-  // Show joke on load
-  componentDidMount() {
-    this.fetchJoke();
-  }
+  // Send search query to API to get jokes
+  searchJokes(limit = 20) {
+    this.setState({ isLoading: true });
 
-  // Get joke
-  fetchJoke() {
-    this.setState({ isFetchingJoke: true });
-
-    fetch("https://icanhazdadjoke.com/", {
+    fetch(`https://icanhazdadjoke.com/search?term=${this.state.searchQuery}&limit=${limit}`, {
       method: "GET",
       headers: {
-        Accept: "application/json" // Get JSON data
+        Accept: "application/json"
       }
     })
     .then(response => response.json())
     .then(json => {
+      const jokes = json.results;
+      console.log('jokes', jokes)
       this.setState({
-        joke: json.joke, // Fetch a new joke
-        isFetchingJoke: false // Check if fecthing joke
+        jokes,
+        isLoading: false
       });
     });
   }
 
-  onTellJoke() {
-    this.fetchJoke();
+  onSearchChange(event) {
+    this.setState({ searchQuery: event.target.value })
+  }
+
+  onSearchSubmit(event) {
+    event.preventDefault();
+    this.searchJokes();
+  }
+
+  showJokes() {
+    return(
+      <ul className="joke__list">
+        {this.state.jokes.map(item => <li className="joke" key={item.id}>{item.joke}</li>)}
+      </ul>
+    )
   }
 
   render() {
     return (
-      <main className="content">
+      <main className="joke__search">
         <h1>Random Dad Jokes</h1>
-        <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>
-          Tell a joke
-        </button>
-        <p className="joke">
-          {this.state.isFetchingJoke ? "Loading..." : this.state.joke}
-        </p>
+
+        <form onSubmit={this.onSearchSubmit}>
+          <input type="text" placeholder="Search jokes" onChange={this.onSearchChange}/>
+          <button>Search</button>
+          <button onClick={() => this.searchJokes(1)} disabled={this.state.isLoading}>Feelin&rsquo; lucky</button>
+        </form>
+
+        <h2>Searching for: {this.state.searchQuery}</h2>
+
+        {this.state.isLoading ? 'Loading...' : this.showJokes()}
       </main>
     );
   }
