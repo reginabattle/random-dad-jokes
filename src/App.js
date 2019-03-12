@@ -33,7 +33,7 @@ class App extends Component {
     .then(response => response.json())
     .then(json => {
       const jokes = json.results;
-      console.log('jokes', jokes)
+      //console.log('jokes', jokes);
       this.setState({
         jokes,
         isLoading: false
@@ -41,8 +41,8 @@ class App extends Component {
     });
   }
 
-  onSearchChange(event) {
-    this.setState({ searchQuery: event.target.value })
+  onSearchChange(value) {
+    this.setState({ searchQuery: value })
   }
 
   showJokes() {

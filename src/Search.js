@@ -9,7 +9,11 @@ const Search = props => {
 
 	return (
 		<form onSubmit={onSubmit}>
-	    <input type="text" placeholder="Search jokes" onChange={props.onSearchValueChange}/>
+	    <input 
+	    	type="text" 
+	    	placeholder="Search jokes" 
+	    	onChange={event => props.onSearchValueChange(event.target.value)} />
+
 	    <button disabled={props.isSearching}>Search</button>
 	    <button onClick={props.onSingleSearch} disabled={props.isSearching}>Feelin&rsquo; lucky</button>
 	  </form>
