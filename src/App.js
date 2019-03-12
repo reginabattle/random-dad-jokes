@@ -17,8 +17,7 @@ class App extends Component {
     
     // Bind handlers to component
     this.onSearchChange = this.onSearchChange.bind(this);
-    this.onSearchSubmit = this.onSearchSubmit.bind(this);
-    this.showJokes = this.showJokes.bind(this);
+    this.searchJokes = this.searchJokes.bind(this);
   }
 
   // Send search query to API to get jokes
@@ -46,11 +45,6 @@ class App extends Component {
     this.setState({ searchQuery: event.target.value })
   }
 
-  onSearchSubmit(event) {
-    event.preventDefault();
-    this.searchJokes();
-  }
-
   showJokes() {
     return(
       <ul className="joke__list">
@@ -65,7 +59,7 @@ class App extends Component {
         <h1>Random Dad Jokes</h1>
 
         <Search 
-          onFormSubmit={this.onSearchSubmit} 
+          onFormSubmit={this.onSearchJokes} 
           onSearchValueChange={this.onSearchChange}
           isSearching={this.state.isLoading} 
           onSingleSearch={() => this.searchJokes(1)} />
