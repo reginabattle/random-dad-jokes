@@ -67,7 +67,8 @@ class App extends Component {
         <Search 
           onFormSubmit={this.onSearchSubmit} 
           onSearchValueChange={this.onSearchChange}
-          isSearching={this.state.isLoading} />
+          isSearching={this.state.isLoading} 
+          onSingleSearch={() => this.searchJokes(1)} />
 
         <h2>Searching for: {this.state.searchQuery}</h2>
 
