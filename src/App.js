@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Search from './Search';
 
 class App extends Component {
   joke = null;
@@ -63,11 +64,10 @@ class App extends Component {
       <main className="joke__search">
         <h1>Random Dad Jokes</h1>
 
-        <form onSubmit={this.onSearchSubmit}>
-          <input type="text" placeholder="Search jokes" onChange={this.onSearchChange}/>
-          <button>Search</button>
-          <button onClick={() => this.searchJokes(1)} disabled={this.state.isLoading}>Feelin&rsquo; lucky</button>
-        </form>
+        <Search 
+          onFormSubmit={this.onSearchSubmit} 
+          onSearchValueChange={this.onSearchChange}
+          isSearching={this.state.isLoading} />
 
         <h2>Searching for: {this.state.searchQuery}</h2>
 
