@@ -11,21 +11,20 @@ class App extends Component {
     this.state = {
       searchQuery: '',
       jokes: [],
-      isFetchingJoke: false
+      isLoading: false
     };
     
     // Bind handlers to component
-    this.onTellJoke = this.onTellJoke.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.showJokes = this.showJokes.bind(this);
   }
 
   // Send search query to API to get jokes
-  searchJokes() {
-    this.setState({ isFetchingJoke: true });
+  searchJokes(limit = 20) {
+    this.setState({ isLoading: true });
 
-    fetch(`https://icanhazdadjoke.com/search?term=${this.state.searchQuery}`, {
+    fetch(`https://icanhazdadjoke.com/search?term=${this.state.searchQuery}&limit=${limit}`, {
       method: "GET",
       headers: {
         Accept: "application/json"
@@ -37,13 +36,9 @@ class App extends Component {
       console.log('jokes', jokes)
       this.setState({
         jokes,
-        isFetchingJoke: false
+        isLoading: false
       });
     });
-  }
-
-  onTellJoke() {
-    this.searchJokes();
   }
 
   onSearchChange(event) {
@@ -71,12 +66,12 @@ class App extends Component {
         <form onSubmit={this.onSearchSubmit}>
           <input type="text" placeholder="Search jokes" onChange={this.onSearchChange}/>
           <button>Search</button>
-          <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>Tell joke</button>
+          <button onClick={() => this.searchJokes(1)} disabled={this.state.isLoading}>Feelin&rsquo; lucky</button>
         </form>
 
         <h2>Searching for: {this.state.searchQuery}</h2>
 
-        {this.state.isFetchingJoke ? 'Loading...' : this.showJokes()}
+        {this.state.isLoading ? 'Loading...' : this.showJokes()}
       </main>
     );
   }
